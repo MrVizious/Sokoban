@@ -36,23 +36,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (newHorizontal > deadZone && lastHorizontal != newHorizontal)
         {
-            target = new Vector2(Mathf.Floor(transform.position.x) + 0.5f + 1f,
-                                 Mathf.Floor(transform.position.y) + 0.5f);
+            CanMove(1, 0);
         }
         else if (newHorizontal < -deadZone && lastHorizontal != newHorizontal)
         {
-            target = new Vector2(Mathf.Floor(transform.position.x) + 0.5f - 1f,
-                                 Mathf.Floor(transform.position.y) + 0.5f);
+            CanMove(-1, 0);
         }
         else if (newVertical > deadZone && lastVertical != newVertical)
         {
-            target = new Vector2(Mathf.Floor(transform.position.x) + 0.5f,
-                                 Mathf.Floor(transform.position.y) + 0.5f + 1f);
+            CanMove(0, 1);
         }
         else if (newVertical < -deadZone && lastVertical != newVertical)
         {
-            target = new Vector2(Mathf.Floor(transform.position.x) + 0.5f,
-                                 Mathf.Floor(transform.position.y) + 0.5f - 1f);
+            CanMove(0, -1);
         }
 
         lastHorizontal = newHorizontal;
@@ -62,5 +58,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move() {
         transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+    }
+
+    private bool CanMove(int x, int y) {
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * x + Vector2.up * y, 0.8f);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.tag.Equals("Wall"))
+            {
+                Debug.Log("Hit wall");
+                return false;
+            }
+        }
+
+        target = new Vector2(Mathf.Floor(transform.position.x) + x + 0.5f,
+                             Mathf.Floor(transform.position.y) + y + 0.5f);
+        return true;
+
     }
 }
