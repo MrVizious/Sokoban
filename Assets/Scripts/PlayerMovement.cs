@@ -6,9 +6,9 @@ public class PlayerMovement : MonoBehaviour
 {
 
 
-    public float speed = 2f;
+    public float speed = 5f;
     public float deadZone = 0.05f;
-    private bool debug = false;
+    [SerializeField] private bool debug = false;
     private bool moving = false;
     private float lastHorizontal = 0f;
     private float lastVertical = 0f;
@@ -76,6 +76,22 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (debug) Debug.Log("Hit wall");
                 return false;
+            }
+            else if (hit.collider.tag.Equals("Box"))
+            {
+                bool canMoveBox = hit.collider.gameObject.GetComponent<Box>().CanMove(x, y);
+                if (debug)
+                {
+                    if (canMoveBox)
+                    {
+                        Debug.Log("Can move the box!");
+                    }
+                    else
+                    {
+                        Debug.Log("Can move the box!");
+                    }
+                }
+                if (!canMoveBox) return false;
             }
         }
 
