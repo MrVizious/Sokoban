@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
+
     public float speed = 2f;
     public float deadZone = 0.05f;
+    private bool debug = false;
     private bool moving = false;
     private float lastHorizontal = 0f;
     private float lastVertical = 0f;
@@ -36,18 +38,22 @@ public class PlayerMovement : MonoBehaviour
 
         if (newHorizontal > deadZone && lastHorizontal != newHorizontal)
         {
+            if (debug) Debug.Log("Trying to move right");
             CanMove(1, 0);
         }
         else if (newHorizontal < -deadZone && lastHorizontal != newHorizontal)
         {
+            if (debug) Debug.Log("Trying to move left");
             CanMove(-1, 0);
         }
         else if (newVertical > deadZone && lastVertical != newVertical)
         {
+            if (debug) Debug.Log("Trying to move up");
             CanMove(0, 1);
         }
         else if (newVertical < -deadZone && lastVertical != newVertical)
         {
+            if (debug) Debug.Log("Trying to move down");
             CanMove(0, -1);
         }
 
@@ -68,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hit.collider.tag.Equals("Wall"))
             {
-                Debug.Log("Hit wall");
+                if (debug) Debug.Log("Hit wall");
                 return false;
             }
         }
