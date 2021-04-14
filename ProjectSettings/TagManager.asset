@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Wall
   - Box
-  - Button
+  - Platform
   layers:
   - Default
   - TransparentFX
