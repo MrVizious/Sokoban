@@ -17,7 +17,6 @@ public class Platform : MonoBehaviour
 
     private bool Deactivate() {
         LevelController newLevel = LevelController.Instance;
-        Debug.Log(newLevel);
         return LevelController.Instance.TrackPlatform(this);
     }
 
