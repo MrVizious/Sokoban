@@ -68,6 +68,7 @@ public class DataController : MonoBehaviour
         LevelData levelData = new LevelData();
 
         // Fill new instance with data
+        if (levelName == null || levelName == "") levelName = "noName";
         levelData.levelName = levelName;
         levelData.wallPositions = wallPositions.ToArray();
         levelData.floorPositions = floorPositions.ToArray();
@@ -133,5 +134,9 @@ public class DataController : MonoBehaviour
         // Load and substitute player
         Destroy(grid.GetComponentInChildren<PlayerMovement>().gameObject);
         Instantiate(playerPrefab, levelData.playerPosition, Quaternion.identity, grid.transform);
+    }
+
+    public void setLevelName(string newLevelName) {
+        levelName = newLevelName;
     }
 }
