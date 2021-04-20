@@ -3,18 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "LevelData", menuName = "ScriptableObjects/LevelData", order = 1)]
-public class LevelData : ScriptableObject
+[System.Serializable]
+public class LevelData
 {
     public string levelName;
-    [SerializeField] private GameObject grid;
-
-    public void SaveDataFromScene() {
-        grid = GameObject.Find("Grid");
-    }
-
-    public void LoadDataToScene() {
-        Destroy(GameObject.Find("Grid"));
-        Instantiate(grid, grid.transform.position, grid.transform.rotation);
-    }
+    public Vector2[] wallPositions;
+    public Vector2[] floorPositions;
 }
