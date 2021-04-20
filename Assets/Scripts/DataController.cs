@@ -17,10 +17,12 @@ public class DataController : MonoBehaviour
     private GameObject grid;
     private Tilemap floor, wall;
 
-
-    private void Start() {
+    private void Awake() {
         dataPath = Application.dataPath + "/Resources/Levels/";
         //dataPath = Application.persistentDataPath + "/Levels/";
+    }
+
+    private void Start() {
         grid = GameObject.Find("Grid");
         floor = grid.transform.Find("Floor").GetComponent<Tilemap>();
         wall = grid.transform.Find("Walls").GetComponent<Tilemap>();
