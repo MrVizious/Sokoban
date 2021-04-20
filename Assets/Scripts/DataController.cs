@@ -12,12 +12,15 @@ public class DataController : MonoBehaviour
     public GameObject boxPrefab;
     public GameObject platformPrefab;
 
+    public string dataPath;
 
     private GameObject grid;
     private Tilemap floor, wall;
 
 
     private void Start() {
+        dataPath = Application.dataPath + "/Resources/Levels/";
+        //dataPath = Application.persistentDataPath + "/Levels/";
         grid = GameObject.Find("Grid");
         floor = grid.transform.Find("Floor").GetComponent<Tilemap>();
         wall = grid.transform.Find("Walls").GetComponent<Tilemap>();
@@ -62,7 +65,7 @@ public class DataController : MonoBehaviour
         }
 
         // Get Player Position
-        Vector2 playerPosition = grid.transform.Find("Player").transform.position;
+        Vector2 playerPosition = grid.GetComponentInChildren<PlayerMovement>().transform.position;
 
         // Create class instance to store data
         LevelData levelData = new LevelData();
@@ -78,7 +81,7 @@ public class DataController : MonoBehaviour
 
         // Save to JSON file
         string levelDataJson = JsonUtility.ToJson(levelData, true);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/Levels/" + levelName + ".json", levelDataJson, System.Text.Encoding.UTF8);
+        System.IO.File.WriteAllText(dataPath + levelName + ".json", levelDataJson, System.Text.Encoding.UTF8);
     }
 
     public void LoadData() {
@@ -86,7 +89,7 @@ public class DataController : MonoBehaviour
         LevelData levelData = new LevelData();
 
         // Read JSON data from file
-        string readData = System.IO.File.ReadAllText(Application.persistentDataPath + "/Levels/" + levelName + ".json",
+        string readData = System.IO.File.ReadAllText(dataPath + levelName + ".json",
                                      System.Text.Encoding.UTF8);
 
         // Assign read data to instance
