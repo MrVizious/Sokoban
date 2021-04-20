@@ -7,6 +7,13 @@ using UnityEngine.Tilemaps;
 public class LevelData
 {
     public string levelName;
+
+    // Topology
     public Vector2[] wallPositions;
     public Vector2[] floorPositions;
+
+    // GameObjects data
+    public Vector2[] boxPositions;
+    public Vector2[] platformPositions;
+    public Vector2 playerPosition;
 }
