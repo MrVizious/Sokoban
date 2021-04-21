@@ -141,7 +141,7 @@ public class DataController : MonoBehaviour
             Instantiate(platformPrefab, position, Quaternion.identity, grid.transform);
         }
 
-        // Load and substitute platforms
+        // Load and substitute players
         List<PlayerMovement> playerComponents = grid.GetComponentsInChildren<PlayerMovement>().ToList<PlayerMovement>();
         foreach (PlayerMovement player in playerComponents)
         {
