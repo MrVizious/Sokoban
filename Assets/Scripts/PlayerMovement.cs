@@ -4,70 +4,51 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-
     public float speed = 5f;
     public float deadZone = 0.05f;
     [SerializeField] private bool debug = false;
-    private bool moving = false;
-    private float lastHorizontal = 0f;
-    private float lastVertical = 0f;
-    [SerializeField] private Vector2 target;
+    private Vector2 target;
+    private IEnumerator movingCoroutine = null;
 
     private void Start() {
         target = transform.position;
+        movingCoroutine = null;
     }
 
     private void Update() {
-        if (!moving) Input();
-        if (Vector2.Distance(transform.position, target) > Mathf.Epsilon)
-        {
-            moving = true;
-            Move();
-        }
-        else
-        {
-            moving = false;
-        }
+        if (movingCoroutine == null) Input();
     }
 
     private void Input() {
 
-        float newHorizontal = UnityEngine.Input.GetAxisRaw("Horizontal");
-        float newVertical = UnityEngine.Input.GetAxisRaw("Vertical");
+        float horizontalInput = UnityEngine.Input.GetAxisRaw("Horizontal");
+        float verticalInput = UnityEngine.Input.GetAxisRaw("Vertical");
 
-        if (newHorizontal > deadZone && lastHorizontal != newHorizontal)
+        if (horizontalInput > deadZone)
         {
             if (debug) Debug.Log("Trying to move right");
             CanMove(1, 0);
         }
-        else if (newHorizontal < -deadZone && lastHorizontal != newHorizontal)
+        else if (horizontalInput < -deadZone)
         {
             if (debug) Debug.Log("Trying to move left");
             CanMove(-1, 0);
         }
-        else if (newVertical > deadZone && lastVertical != newVertical)
+        else if (verticalInput > deadZone)
         {
             if (debug) Debug.Log("Trying to move up");
             CanMove(0, 1);
         }
-        else if (newVertical < -deadZone && lastVertical != newVertical)
+        else if (verticalInput < -deadZone)
         {
             if (debug) Debug.Log("Trying to move down");
             CanMove(0, -1);
         }
-
-        lastHorizontal = newHorizontal;
-        lastVertical = newVertical;
-
-    }
-
-    private void Move() {
-        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
     }
 
     private bool CanMove(int x, int y) {
 
+        if (movingCoroutine != null) return false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * x + Vector2.up * y, 0.8f);
 
         if (hit.collider != null)
@@ -95,9 +76,31 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        target = new Vector2(Mathf.Floor(transform.position.x) + x + 0.5f,
-                             Mathf.Floor(transform.position.y) + y + 0.5f);
+        StartMoving(x, y);
         return true;
+    }
 
+    private void StartMoving(int x, int y) {
+        if (movingCoroutine == null)
+        {
+            Vector2 newTarget = new Vector2(Mathf.Floor(transform.position.x) + x + 0.5f,
+                                 Mathf.Floor(transform.position.y) + y + 0.5f);
+
+            movingCoroutine = MovingCoroutine(newTarget);
+            if (debug) Debug.Log("Will try to move box");
+            StartCoroutine(movingCoroutine);
+        }
+    }
+
+    private IEnumerator MovingCoroutine(Vector2 target) {
+        if (debug) Debug.Log("Starting moving coroutine");
+        while (Vector2.Distance(transform.position, target) > Mathf.Epsilon)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = target;
+        movingCoroutine = null;
     }
 }
