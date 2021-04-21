@@ -68,8 +68,8 @@ public class DataController : MonoBehaviour
 
         // Get Player Positions
         List<Vector2> playerPositions = new List<Vector2>();
-        List<PlayerMovement> playerComponents = grid.transform.GetComponentsInChildren<PlayerMovement>().ToList<PlayerMovement>();
-        foreach (PlayerMovement player in playerComponents)
+        List<Player> playerComponents = grid.transform.GetComponentsInChildren<Player>().ToList<Player>();
+        foreach (Player player in playerComponents)
         {
             playerPositions.Add(player.transform.position);
         }
@@ -142,8 +142,8 @@ public class DataController : MonoBehaviour
         }
 
         // Load and substitute players
-        List<PlayerMovement> playerComponents = grid.GetComponentsInChildren<PlayerMovement>().ToList<PlayerMovement>();
-        foreach (PlayerMovement player in playerComponents)
+        List<Player> playerComponents = grid.GetComponentsInChildren<Player>().ToList<Player>();
+        foreach (Player player in playerComponents)
         {
             Destroy(player.gameObject);
         }

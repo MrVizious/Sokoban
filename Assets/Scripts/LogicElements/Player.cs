@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float speed = 5f;
     public float deadZone = 0.05f;
@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update() {
-        if (movingCoroutine == null) Input();
+        if (movingCoroutine == null && Time.timeScale == 1f) Input();
     }
 
     private void Input() {
