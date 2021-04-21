@@ -167,8 +167,10 @@
             "y": 3.5
         }
     ],
-    "playerPosition": {
-        "x": -2.5,
-        "y": 3.5
-    }
+    "playerPositions": [
+        {
+            "x": -1.5,
+            "y": 3.5
+        }
+    ]
 }

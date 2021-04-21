@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[ExecuteInEditMode]
 public class DataController : MonoBehaviour
 {
-    public string levelName;
     public TilesList tiles;
     public GameObject playerPrefab;
     public GameObject boxPrefab;
@@ -14,8 +14,9 @@ public class DataController : MonoBehaviour
 
     public string dataPath = "";
 
+    [HideInInspector] public string levelName;
     private GameObject grid;
-    private Tilemap floor, wall;
+    private Tilemap wall, floor;
 
     private void Awake() {
         if (dataPath.Equals("")) dataPath = Application.dataPath + "/Resources/Levels/";
@@ -123,7 +124,7 @@ public class DataController : MonoBehaviour
         List<Box> boxComponents = grid.GetComponentsInChildren<Box>().ToList<Box>();
         foreach (Box box in boxComponents)
         {
-            Destroy(box.gameObject);
+            DestroyImmediate(box.gameObject);
         }
         foreach (Vector2 position in levelData.boxPositions)
         {
@@ -134,7 +135,7 @@ public class DataController : MonoBehaviour
         List<Platform> platformComponents = grid.GetComponentsInChildren<Platform>().ToList<Platform>();
         foreach (Platform platform in platformComponents)
         {
-            Destroy(platform.gameObject);
+            DestroyImmediate(platform.gameObject);
         }
         foreach (Vector2 position in levelData.platformPositions)
         {
@@ -145,7 +146,7 @@ public class DataController : MonoBehaviour
         List<Player> playerComponents = grid.GetComponentsInChildren<Player>().ToList<Player>();
         foreach (Player player in playerComponents)
         {
-            Destroy(player.gameObject);
+            DestroyImmediate(player.gameObject);
         }
         foreach (Vector2 position in levelData.playerPositions)
         {
