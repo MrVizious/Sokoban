@@ -15,5 +15,5 @@ public class LevelData
     // GameObjects data
     public Vector2[] boxPositions;
     public Vector2[] platformPositions;
-    public Vector2 playerPosition;
+    public Vector2[] playerPositions;
 }

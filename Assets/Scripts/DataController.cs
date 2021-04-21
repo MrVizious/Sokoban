@@ -12,13 +12,13 @@ public class DataController : MonoBehaviour
     public GameObject boxPrefab;
     public GameObject platformPrefab;
 
-    public string dataPath;
+    public string dataPath = "";
 
     private GameObject grid;
     private Tilemap floor, wall;
 
     private void Awake() {
-        dataPath = Application.dataPath + "/Resources/Levels/";
+        if (dataPath.Equals("")) dataPath = Application.dataPath + "/Resources/Levels/";
         //dataPath = Application.persistentDataPath + "/Levels/";
     }
 
@@ -66,8 +66,13 @@ public class DataController : MonoBehaviour
             platformPositions.Add(platform.transform.position);
         }
 
-        // Get Player Position
-        Vector2 playerPosition = grid.GetComponentInChildren<PlayerMovement>().transform.position;
+        // Get Player Positions
+        List<Vector2> playerPositions = new List<Vector2>();
+        List<PlayerMovement> playerComponents = grid.transform.GetComponentsInChildren<PlayerMovement>().ToList<PlayerMovement>();
+        foreach (PlayerMovement player in playerComponents)
+        {
+            playerPositions.Add(player.transform.position);
+        }
 
         // Create class instance to store data
         LevelData levelData = new LevelData();
@@ -79,7 +84,7 @@ public class DataController : MonoBehaviour
         levelData.floorPositions = floorPositions.ToArray();
         levelData.boxPositions = boxPositions.ToArray();
         levelData.platformPositions = platformPositions.ToArray();
-        levelData.playerPosition = playerPosition;
+        levelData.playerPositions = playerPositions.ToArray();
 
         // Save to JSON file
         string levelDataJson = JsonUtility.ToJson(levelData, true);
@@ -136,9 +141,16 @@ public class DataController : MonoBehaviour
             Instantiate(platformPrefab, position, Quaternion.identity, grid.transform);
         }
 
-        // Load and substitute player
-        Destroy(grid.GetComponentInChildren<PlayerMovement>().gameObject);
-        Instantiate(playerPrefab, levelData.playerPosition, Quaternion.identity, grid.transform);
+        // Load and substitute platforms
+        List<PlayerMovement> playerComponents = grid.GetComponentsInChildren<PlayerMovement>().ToList<PlayerMovement>();
+        foreach (PlayerMovement player in playerComponents)
+        {
+            Destroy(player.gameObject);
+        }
+        foreach (Vector2 position in levelData.playerPositions)
+        {
+            Instantiate(playerPrefab, position, Quaternion.identity, grid.transform);
+        }
     }
 
     public void setLevelName(string newLevelName) {
