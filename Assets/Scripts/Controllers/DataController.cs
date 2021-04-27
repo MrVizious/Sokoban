@@ -75,6 +75,20 @@ public class DataController : MonoBehaviour
             playerPositions.Add(player.transform.position);
         }
 
+        // Checks
+        // There are enough boxes for the platforms
+        if (platformPositions.Count > boxPositions.Count)
+        {
+            Debug.LogError("There are more platforms than boxes, the level didn't get saved");
+            return;
+        }
+        // There is at least one player
+        if (playerPositions.Count <= 0)
+        {
+            Debug.LogError("There are no players on the scene, the level didn't get saved");
+            return;
+        }
+
         // Create class instance to store data
         LevelData levelData = new LevelData();
 
