@@ -29,6 +29,13 @@ public class DataController : MonoBehaviour
         wall = grid.transform.Find("Walls").GetComponent<Tilemap>();
     }
 
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            LoadData();
+        }
+    }
+
     public void SaveData() {
 
         // Get Wall Positions
