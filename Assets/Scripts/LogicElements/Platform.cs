@@ -38,4 +38,8 @@ public class Platform : MonoBehaviour
         }
     }
 
+    private void OnDestroy() {
+        Activate();
+    }
+
 }

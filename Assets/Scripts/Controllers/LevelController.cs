@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour
     public bool debug = false;
     public List<string> levels;
     private static LevelController instance;
-    [SerializeField] private List<Platform> platforms;
+    private List<Platform> platforms;
     private int currentLevelIndex;
 
     [HideInInspector] public static LevelController Instance { get { return instance; } }
@@ -53,7 +53,6 @@ public class LevelController : MonoBehaviour
         if (platforms.Contains(newPlatform))
         {
             if (debug) Debug.Log(newPlatform + " removed!");
-            //platforms.RemoveAll(item => item == null);
             platforms.Remove(newPlatform);
             if (CheckLevelCompleted())
             {
@@ -88,7 +87,6 @@ public class LevelController : MonoBehaviour
 
     public void LoadCurrentLevel() {
         if (debug) Debug.Log("Loading " + levels[currentLevelIndex] + "!");
-        platforms.Clear();
         DataController.Instance.LoadData(levels[currentLevelIndex]);
     }
 }
