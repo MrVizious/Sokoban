@@ -15,10 +15,13 @@ public class DataController : MonoBehaviour
     public string dataPath = "";
 
     [HideInInspector] public string levelName;
+    private static DataController instance;
+    [HideInInspector] public static DataController Instance { get { return instance; } }
     private GameObject grid;
     private Tilemap wall, floor;
 
     private void Awake() {
+        instance = this;
         if (dataPath.Equals("")) dataPath = Application.dataPath + "/Resources/Levels/";
         //dataPath = Application.persistentDataPath + "/Levels/";
     }
@@ -29,12 +32,6 @@ public class DataController : MonoBehaviour
         wall = grid.transform.Find("Walls").GetComponent<Tilemap>();
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            LoadData();
-        }
-    }
 
     public void SaveData() {
 
@@ -113,6 +110,10 @@ public class DataController : MonoBehaviour
         System.IO.File.WriteAllText(dataPath + levelName + ".json", levelDataJson, System.Text.Encoding.UTF8);
     }
 
+    public void LoadData(string newLevelName) {
+        levelName = newLevelName;
+        LoadData();
+    }
     public void LoadData() {
         // Create empty instance
         LevelData levelData = new LevelData();
@@ -145,7 +146,7 @@ public class DataController : MonoBehaviour
         List<Box> boxComponents = grid.GetComponentsInChildren<Box>().ToList<Box>();
         foreach (Box box in boxComponents)
         {
-            DestroyImmediate(box.gameObject);
+            Destroy(box.gameObject);
         }
         foreach (Vector2 position in levelData.boxPositions)
         {
@@ -156,7 +157,7 @@ public class DataController : MonoBehaviour
         List<Platform> platformComponents = grid.GetComponentsInChildren<Platform>().ToList<Platform>();
         foreach (Platform platform in platformComponents)
         {
-            DestroyImmediate(platform.gameObject);
+            Destroy(platform.gameObject);
         }
         foreach (Vector2 position in levelData.platformPositions)
         {
@@ -167,7 +168,7 @@ public class DataController : MonoBehaviour
         List<Player> playerComponents = grid.GetComponentsInChildren<Player>().ToList<Player>();
         foreach (Player player in playerComponents)
         {
-            DestroyImmediate(player.gameObject);
+            Destroy(player.gameObject);
         }
         foreach (Vector2 position in levelData.playerPositions)
         {
