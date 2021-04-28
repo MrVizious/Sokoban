@@ -27,6 +27,10 @@ public class LevelController : MonoBehaviour
         {
             LoadCurrentLevel();
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            platforms.Clear();
+        }
     }
 
     public bool TrackPlatform(Platform newPlatform) {
@@ -49,7 +53,7 @@ public class LevelController : MonoBehaviour
         if (platforms.Contains(newPlatform))
         {
             if (debug) Debug.Log(newPlatform + " removed!");
-            platforms.RemoveAll(item => item == null);
+            //platforms.RemoveAll(item => item == null);
             platforms.Remove(newPlatform);
             if (CheckLevelCompleted())
             {

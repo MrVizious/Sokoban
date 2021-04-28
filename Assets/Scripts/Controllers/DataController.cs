@@ -128,48 +128,68 @@ public class DataController : MonoBehaviour
         // Load name
         levelName = levelData.levelName;
 
-        // Load and substitute floor tiles
+        //****************
+        // DELETE SECTION
+        //****************
+
+        // Delete Floor
         floor.ClearAllTiles();
-        foreach (Vector2 position in levelData.floorPositions)
-        {
-            floor.SetTile(Vector3Int.FloorToInt((Vector3)position), tiles.wallTile);
-        }
 
-        // Load and substitute wall tiles
+        // Delete Walls
         wall.ClearAllTiles();
-        foreach (Vector2 position in levelData.wallPositions)
-        {
-            wall.SetTile(Vector3Int.FloorToInt((Vector3)position), tiles.wallTile);
-        }
 
-        // Load and substitute boxes
-        List<Box> boxComponents = grid.GetComponentsInChildren<Box>().ToList<Box>();
-        foreach (Box box in boxComponents)
-        {
-            Destroy(box.gameObject);
-        }
-        foreach (Vector2 position in levelData.boxPositions)
-        {
-            Instantiate(boxPrefab, position, Quaternion.identity, grid.transform);
-        }
-
-        // Load and substitute platforms
+        // Delete Platforms
         List<Platform> platformComponents = grid.GetComponentsInChildren<Platform>().ToList<Platform>();
         foreach (Platform platform in platformComponents)
         {
+            platform.enabled = false;
             Destroy(platform.gameObject);
         }
-        foreach (Vector2 position in levelData.platformPositions)
+
+        // Delete Boxes
+        List<Box> boxComponents = grid.GetComponentsInChildren<Box>().ToList<Box>();
+        foreach (Box box in boxComponents)
         {
-            Instantiate(platformPrefab, position, Quaternion.identity, grid.transform);
+            box.enabled = false;
+            Destroy(box.gameObject);
         }
 
-        // Load and substitute players
+        // Delete Players
         List<Player> playerComponents = grid.GetComponentsInChildren<Player>().ToList<Player>();
         foreach (Player player in playerComponents)
         {
             Destroy(player.gameObject);
         }
+
+        //****************
+        // LOADING SECTION
+        //****************
+
+        // Load floor tiles
+        foreach (Vector2 position in levelData.floorPositions)
+        {
+            floor.SetTile(Vector3Int.FloorToInt((Vector3)position), tiles.floorTile);
+        }
+
+        // Load wall tiles
+        foreach (Vector2 position in levelData.wallPositions)
+        {
+            wall.SetTile(Vector3Int.FloorToInt((Vector3)position), tiles.wallTile);
+        }
+
+        // Load platforms
+        foreach (Vector2 position in levelData.platformPositions)
+        {
+            Instantiate(platformPrefab, position, Quaternion.identity, grid.transform);
+        }
+
+        // Load boxes
+        foreach (Vector2 position in levelData.boxPositions)
+        {
+            Instantiate(boxPrefab, position, Quaternion.identity, grid.transform);
+        }
+
+        // Load players
         foreach (Vector2 position in levelData.playerPositions)
         {
             Instantiate(playerPrefab, position, Quaternion.identity, grid.transform);
