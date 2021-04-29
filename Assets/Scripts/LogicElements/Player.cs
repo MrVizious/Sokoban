@@ -27,22 +27,34 @@ public class Player : MonoBehaviour
         if (horizontalInput > deadZone)
         {
             if (debug) Debug.Log("Trying to move right");
-            CanMove(1, 0);
+            if (CanMove(1, 0))
+            {
+                StartMoving(1, 0);
+            }
         }
         else if (horizontalInput < -deadZone)
         {
             if (debug) Debug.Log("Trying to move left");
-            CanMove(-1, 0);
+            if (CanMove(-1, 0))
+            {
+                StartMoving(-1, 0);
+            }
         }
         else if (verticalInput > deadZone)
         {
             if (debug) Debug.Log("Trying to move up");
-            CanMove(0, 1);
+            if (CanMove(0, 1))
+            {
+                StartMoving(0, 1);
+            }
         }
         else if (verticalInput < -deadZone)
         {
             if (debug) Debug.Log("Trying to move down");
-            CanMove(0, -1);
+            if (CanMove(0, -1))
+            {
+                StartMoving(0, -1);
+            }
         }
     }
 
@@ -69,20 +81,20 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Can move the box!");
+                        Debug.Log("Cannnot move the box!");
                     }
                 }
                 if (!canMoveBox) return false;
             }
         }
 
-        StartMoving(x, y);
         return true;
     }
 
     private void StartMoving(int x, int y) {
         if (movingCoroutine == null)
         {
+            LevelController.Instance?.AddStep();
             Vector2 newTarget = new Vector2(Mathf.Floor(transform.position.x) + x + 0.5f,
                                  Mathf.Floor(transform.position.y) + y + 0.5f);
 

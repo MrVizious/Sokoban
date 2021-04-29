@@ -29,10 +29,6 @@ public class DataController : MonoBehaviour
         //dataPath = Application.persistentDataPath + "/Levels/";
     }
 
-    private void Start() {
-    }
-
-
     public void SaveData() {
 
         // Get Wall Positions

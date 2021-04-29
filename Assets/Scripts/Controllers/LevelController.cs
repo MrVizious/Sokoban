@@ -7,7 +7,7 @@ public class LevelController : MonoBehaviour
 {
     public bool debug = false;
     public List<string> levels;
-    [HideInInspector] public int numberOfStepsTaken = 0;
+    public int numberOfStepsTaken = 0;
     private static LevelController instance = null;
     private List<Platform> platforms;
     private int currentLevelIndex;
@@ -67,6 +67,10 @@ public class LevelController : MonoBehaviour
             if (debug) Debug.Log(newPlatform + " couldn't be removed");
             return false;
         }
+    }
+
+    public void AddStep() {
+        numberOfStepsTaken++;
     }
 
     public bool CheckLevelCompleted() {
