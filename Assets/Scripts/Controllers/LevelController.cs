@@ -73,7 +73,7 @@ public class LevelController : MonoBehaviour
     }
 
     public void LoadNextLevel() {
-        if (currentLevelIndex < levels.Count)
+        if (currentLevelIndex < levels.Count - 1)
         {
             if (debug) Debug.Log("Loading next level!");
             currentLevelIndex++;
