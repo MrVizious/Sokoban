@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [ExecuteInEditMode]
 public class DataController : MonoBehaviour
@@ -15,10 +18,10 @@ public class DataController : MonoBehaviour
     public string dataPath = "";
 
     [HideInInspector] public string levelName;
-    private static DataController instance;
+    private static DataController instance = null;
     [HideInInspector] public static DataController Instance { get { return instance; } }
-    private GameObject grid;
-    private Tilemap wall, floor;
+    public GameObject grid;
+    public Tilemap wall, floor;
 
     private void Awake() {
         instance = this;
@@ -27,9 +30,6 @@ public class DataController : MonoBehaviour
     }
 
     private void Start() {
-        grid = GameObject.Find("Grid");
-        floor = grid.transform.Find("Floor").GetComponent<Tilemap>();
-        wall = grid.transform.Find("Walls").GetComponent<Tilemap>();
     }
 
 
@@ -143,7 +143,18 @@ public class DataController : MonoBehaviour
         foreach (Platform platform in platformComponents)
         {
             platform.enabled = false;
-            Destroy(platform.gameObject);
+#if UNITY_EDITOR
+            if (!EditorApplication.isPlaying)
+            {
+                DestroyImmediate(platform.gameObject);
+            }
+            else
+            {
+                Destroy(platform.gameObject);
+            }
+#else
+                Destroy(platform.gameObject);
+#endif
         }
 
         // Delete Boxes
@@ -151,14 +162,36 @@ public class DataController : MonoBehaviour
         foreach (Box box in boxComponents)
         {
             box.enabled = false;
-            Destroy(box.gameObject);
+#if UNITY_EDITOR
+            if (!EditorApplication.isPlaying)
+            {
+                DestroyImmediate(box.gameObject);
+            }
+            else
+            {
+                Destroy(box.gameObject);
+            }
+#else
+                Destroy(box.gameObject);
+#endif
         }
 
         // Delete Players
         List<Player> playerComponents = grid.GetComponentsInChildren<Player>().ToList<Player>();
         foreach (Player player in playerComponents)
         {
-            Destroy(player.gameObject);
+#if UNITY_EDITOR
+            if (!EditorApplication.isPlaying)
+            {
+                DestroyImmediate(player.gameObject);
+            }
+            else
+            {
+                Destroy(player.gameObject);
+            }
+#else
+                Destroy(player.gameObject);
+#endif
         }
 
         //****************

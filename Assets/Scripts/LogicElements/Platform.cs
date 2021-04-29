@@ -12,12 +12,21 @@ public class Platform : MonoBehaviour
     }
 
     private bool Activate() {
-        return LevelController.Instance.UntrackPlatform(this);
+        LevelController level = LevelController.Instance;
+        if (level != null)
+        {
+            LevelController.Instance.UntrackPlatform(this);
+        }
+        return false;
     }
 
     private bool Deactivate() {
-        LevelController newLevel = LevelController.Instance;
-        return LevelController.Instance.TrackPlatform(this);
+        LevelController level = LevelController.Instance;
+        if (level != null)
+        {
+            LevelController.Instance.TrackPlatform(this);
+        }
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

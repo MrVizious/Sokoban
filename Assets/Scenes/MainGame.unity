@@ -1519,6 +1519,9 @@ MonoBehaviour:
   platformPrefab: {fileID: 3610927004793615669, guid: 59cd807a72df53257a5743e975c3b3cc, type: 3}
   dataPath: /home/mrvizious/Unity/Projects/Sokoban/Assets/Resources/Levels/
   levelName: level02
+  grid: {fileID: 896208388}
+  wall: {fileID: 2376500472199180314}
+  floor: {fileID: 1177360078}
 --- !u!1 &1476887173
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,12 +1565,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1209875940c0d1d9184282aacaa357c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 0
+  debug: 1
   levels:
   - level01
   - level02
   - level03
   - level04
+  numberOfStepsTaken: 0
 --- !u!1 &1797550415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1834,7 +1838,7 @@ GameObject:
   - component: {fileID: 2589933565844428349}
   - component: {fileID: 2002507961882015711}
   m_Layer: 0
-  m_Name: Walls
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

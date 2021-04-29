@@ -7,7 +7,8 @@ public class LevelController : MonoBehaviour
 {
     public bool debug = false;
     public List<string> levels;
-    private static LevelController instance;
+    [HideInInspector] public int numberOfStepsTaken = 0;
+    private static LevelController instance = null;
     private List<Platform> platforms;
     private int currentLevelIndex;
 
@@ -88,6 +89,7 @@ public class LevelController : MonoBehaviour
     public void LoadCurrentLevel() {
         if (debug) Debug.Log("Loading " + levels[currentLevelIndex] + "!");
         DataController.Instance.LoadData(levels[currentLevelIndex]);
+        numberOfStepsTaken = 0;
     }
 }
 
