@@ -20,10 +20,14 @@ public class Box : MonoBehaviour
 
         if (hit.collider != null)
         {
+            if (debug) Debug.Log("Hit a collider with tag: " + hit.collider.tag);
             if (hit.collider.tag.Equals("Wall") || hit.collider.tag.Equals("Box"))
             {
-                if (debug) Debug.Log("Hit a collider with tag: " + hit.collider.tag);
                 return false;
+            }
+            if (hit.collider.tag.Equals("Player"))
+            {
+                return hit.collider.gameObject.GetComponent<Player>().CanMove(x, y);
             }
         }
 

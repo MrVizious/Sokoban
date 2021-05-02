@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool CanMove(int x, int y) {
+    public bool CanMove(int x, int y) {
 
         if (movingCoroutine != null) return false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * x + Vector2.up * y, 0.8f);
@@ -85,6 +85,10 @@ public class Player : MonoBehaviour
                     }
                 }
                 if (!canMoveBox) return false;
+            }
+            else if (hit.collider.tag.Equals("Player"))
+            {
+                return hit.collider.gameObject.GetComponent<Player>().CanMove(x, y);
             }
         }
 
