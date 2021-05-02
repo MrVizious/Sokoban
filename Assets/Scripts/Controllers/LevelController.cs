@@ -87,6 +87,8 @@ public class LevelController : MonoBehaviour
         else
         {
             Debug.Log("Game finished!");
+            currentLevelIndex = 0;
+            LoadCurrentLevel();
         }
     }
 
